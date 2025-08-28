@@ -10,10 +10,10 @@ use xrust::xdmerror::{Error, ErrorKind};
 pub fn resolve(url: &Url) -> Result<String, Error> {
     match url.scheme() {
         "http" => reqwest::blocking::get(url.to_string())
-            .map_err(|_| Error {
-                kind: ErrorKind::Unknown,
-                message: format!("unable to fetch href URL \"{}\"", url.to_string()),
-            })?
+            .map_err(|_| Error::new(
+                ErrorKind::Unknown,
+                format!("unable to fetch href URL \"{}\"", url.to_string()),
+            ))?
             .text()
             .map_err(|_| Error::new(
                 ErrorKind::Unknown,
